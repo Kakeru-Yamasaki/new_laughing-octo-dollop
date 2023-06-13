@@ -46,4 +46,17 @@ class PostController extends Controller
         $post->fill($input)->save();
         return redirect('/posts/' . $post->id);
     }
+    
+    public function edit(Post $post)
+    {
+        return view('posts.edit')->with(['post' => $post]);
+    }
+    
+    public function update(PostRequest $request, Post $post)
+    {
+        $input_post = $request['post'];
+        $post->fill($input_post)->save();  //updateでも良いがDBのupdate_atが内容を変更してないものまで更新される。updateメソッドは変更点以外もDBすべてを更新するため
+        
+        return redirect('/posts/' . $post->id);
+    }
 }
